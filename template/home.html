@@ -3,6 +3,11 @@
 {% block title %}Home{% endblock %}
 
 {% block navbar %}
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item activate">
+    <a class="nav-link" href="{% url 'records' %}">出勤簿</a>
+  </li>
+</ul>
 <span class="navbar-text">
   <a href="{% url 'logout' %}">ログアウト</a>
 </span>
