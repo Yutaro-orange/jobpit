@@ -22,8 +22,13 @@ class PushTimecard(LoginRequiredMixin, TemplateView):
             attendance_time__date = date.today()
         ).exists()
 
+        is_left = Attendances.objects.filter(
+             user = request.user,
+             leave_time__date = date.today()
+         ).exists()
+
         response_body = {}
-        if push_type == 'attendance':
+        if push_type == 'attendance' and not is_attendanced:
             # 出勤したユーザーをDBに保存する
             attendance = Attendances(user=request.user)
             attendance.save()
@@ -32,7 +37,7 @@ class PushTimecard(LoginRequiredMixin, TemplateView):
                 'result': 'success',
                 'attendance_time': response_time.strftime('%Y-%m-%d %H:%M:%S')
             }
-        elif push_type == 'leave':
+        elif push_type == 'leave' and not is_left:
             if is_attendanced:
                 # 退勤するユーザーのレコードの退勤時間を更新する
                 attendance = Attendances.objects.filter(
@@ -54,4 +59,5 @@ class PushTimecard(LoginRequiredMixin, TemplateView):
             response_body = {
                 'result': 'already_exists'
             }
+        
         return JsonResponse(response_body)
