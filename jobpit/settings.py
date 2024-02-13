@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
-    'attendance'
+    'attendance',
+    'fix_request'
 ]
 
 MIDDLEWARE = [
